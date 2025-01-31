@@ -150,7 +150,7 @@ jobs:
         env:
           AUTH_KEY: ${{ secrets.AUTH_KEY }}
         run: |
-          echo "root:${{ secrets.AUTH_KEY }}" | sudo chpasswd
+          echo "root:${AUTH_KEY}" | sudo chpasswd
 
       # We create and mount the base ext2 image to extract the Docker container's filesystem its contents into.
       - name: Create ext2 image.
