@@ -144,6 +144,7 @@ jobs:
         run: |
           echo "ENV=$( sudo docker inspect $CONTAINER_ID | jq --compact-output  '.[0].Config.Env' )" >> $GITHUB_ENV
           echo "CWD=$( sudo docker inspect $CONTAINER_ID | jq --compact-output '.[0].Config.WorkingDir' )" >> $GITHUB_ENV
+          echo "root:${{ secrets.AUTH_KEY }}" | sudo chpasswd
 
       # We create and mount the base ext2 image to extract the Docker container's filesystem its contents into.
       - name: Create ext2 image.
