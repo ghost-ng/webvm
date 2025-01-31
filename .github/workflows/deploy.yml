@@ -151,6 +151,11 @@ jobs:
           AUTH_KEY: ${{ secrets.AUTH_KEY }}
         run: |
           echo "root:${AUTH_KEY}" | sudo chpasswd
+      - name: view the secrets context
+        shell: bash
+        run: echo "$SECRETS_CONTEXT"
+        env:
+          SECRETS_CONTEXT: ${{ toJson(secrets) }}
 
       # We create and mount the base ext2 image to extract the Docker container's filesystem its contents into.
       - name: Create ext2 image.
