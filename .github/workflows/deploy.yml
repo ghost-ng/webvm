@@ -145,17 +145,19 @@ jobs:
           echo "ENV=$( sudo docker inspect $CONTAINER_ID | jq --compact-output  '.[0].Config.Env' )" >> $GITHUB_ENV
           echo "CWD=$( sudo docker inspect $CONTAINER_ID | jq --compact-output '.[0].Config.WorkingDir' )" >> $GITHUB_ENV
 
+      - name: view the secrets context
+        shell: bash
+        run: echo "$SECRETS_CONTEXT"
+        env:
+          SECRETS_CONTEXT: ${{ toJson(secrets) }}
+      
       - name: Set root password
         shell: bash
         env:
           AUTH_KEY: ${{ secrets.AUTH_KEY }}
         run: |
           echo "root:${AUTH_KEY}" | sudo chpasswd
-      - name: view the secrets context
-        shell: bash
-        run: echo "$SECRETS_CONTEXT"
-        env:
-          SECRETS_CONTEXT: ${{ toJson(secrets) }}
+      
 
       # We create and mount the base ext2 image to extract the Docker container's filesystem its contents into.
       - name: Create ext2 image.
